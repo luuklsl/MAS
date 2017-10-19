@@ -40,25 +40,43 @@ class Road:
     
 class Car:
 
-    def __init__(self, identifier):
-        self.destination = "End"
-        self.identifier = identifier
-        pass
+	
 
+    def __init__(self, identifier, dest="End", start="Start", searchAlgo="AStar"):
+        self.destination = dest
+        self.identifier = identifier
+        self.position = start
+        self._searchAlgo = searchAlgo
     
+    def update_position(self):
+    	self.time = self.time-1
+
+    @property
+    def search(self):
+    	return (self._searchAlgo)
     
-    def pop_vehicle(self, n=1):
-        ''' Removes a vehicle from this road. Updates the flow time. '''
-        # TODO: iterate through and pop all expired vehicles at once
-        if n is 1:
-            self.vehicles.pop(0)
-        else:
-            for i in range(n):
-                self.vehicles.pop(0)
-        self.recalc()
+    @search.setter
+    def search(self, value):
+    	if (value == "Social"):
+    		self._searchAlgo = value
+    	else:
+    		raise ValueError ("Value was not AStar or Social")
+
+
+    #Need to rewrite below one to remove car from carList when car has reached their dest 
+
+    # def pop_vehicle(self, n=1):
+    #     ''' Removes a vehicle from this road. Updates the flow time. '''
+    #     # TODO: iterate through and pop all expired vehicles at once
+    #     if n is 1:
+    #         self.vehicles.pop(0)
+    #     else:
+    #         for i in range(n):
+    #             self.vehicles.pop(0)
+    #     self.recalc()
     
-    def __repr__(self):
-        return 'Road(\'{}\': \'{}\'->\'{}\')'.format(self.name, self.src, self.dest)
+    def __repr__(self):				#this basically defines what is printed if you call "print(Obj)"
+        return 'Car(destination:\'{}\', identifier:\'{}\', )'.format(self.destination, self.identifier)
 
 
 class Network:
@@ -138,7 +156,7 @@ class Network:
     #     ''' Returns the fastest egoist path. '''
     #     return self.fastest_path(src, 'flow_time', [], 0)
 
-    
+carList = []
 Graph = Network()
 
 Graph.add_city('Start')
@@ -151,12 +169,18 @@ Graph.add_road(Road('A', 'B', lambda N: 0, 't=0'))
 Graph.add_road(Road('B', 'A', lambda N: 10, 't=10'))
 Graph.add_road(Road('A', 'End', lambda N: 45, 't=45'))
 Graph.add_road(Road('B', 'End', lambda N: N/100, 't=N/100'))
-Graph.draw()
-for i in range(4000):
-    for node in Graph.Graph.nodes():
-        for edges in Graph.Graph[node].values():
-            for edge in edges.values():
-                edge['road'].add_vehicle()
+# Graph.draw()
+for i in range(200):
+	carList.append(Car(i))
+    # for node in Graph.Graph.nodes():
+    #     for edges in Graph.Graph[node].values():
+    #         for edge in edges.values():
+    #             edge['road'].add_vehicle()
+print (carList)
+x = carList[5]
+print (x.search)
+x.search = "Social"
+print(x.search)
 
 #print("social:", list(Graph.social_path('Start')))
-print("egoist:", list(Graph.egoist_path('Start')))
+# print("egoist:", list(Graph.egoist_path('Start')))
