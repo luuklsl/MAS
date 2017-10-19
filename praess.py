@@ -152,8 +152,6 @@ Graph.add_road(Road('B', 'A', lambda N: 10, 't=10'))
 Graph.add_road(Road('A', 'End', lambda N: 45, 't=45'))
 Graph.add_road(Road('B', 'End', lambda N: N/100, 't=N/100'))
 Graph.draw()
-hallo
-
 # for i in range(4000):
 #     for node in Graph.Graph.nodes():
 #         for edges in Graph.Graph[node].values():
