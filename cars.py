@@ -1,4 +1,0 @@
-def cars():
-	currentRoad = []
-	
-	pass

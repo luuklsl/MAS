@@ -1,4 +1,0 @@
-def nodes(int):
-	pass
-
-	
