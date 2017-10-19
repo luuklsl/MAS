@@ -1,6 +1,23 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 
+class Main:
+    
+    def __init__(self, ):
+        N_cars: 200
+        for x in range(N_cars):
+            Car(x)
+
+
+    def function():
+        pass
+
+    def function():
+        pass
+
+    def function():
+        pass
+
 
 class Road:
     
@@ -9,6 +26,7 @@ class Road:
         self.Graph = None
         self.name = name
         self.src = src
+        self.dest = dest
         self.time_func = time_func
         self.vehicles = [15]
         self.flow_time = time_func(0)
@@ -17,21 +35,17 @@ class Road:
     # def recalc(self):
     #     ''' Recalculates the flow time for the current traffic. '''
     #     self.flow_time = self.time_func(len(self.vehicles))
+    # Graph.add_road(Road('A', 'B', lambda N: 0, 't=0'))
+
     
 class Car:
 
-    def __init__(self):
-        self.destination = None
+    def __init__(self, identifier):
+        self.destination = "End"
+        self.identifier = identifier
         pass
 
-    def number_of_vehicles(self):
-        ''' Returns the amount of vehicles on this road. '''
-        return len(self.vehicles)
     
-    def add_vehicle(self, n=1):
-        ''' Adds a starting vehicle on this road. Updates the flow time. '''
-        self.vehicles.append(0)
-        self.recalc()
     
     def pop_vehicle(self, n=1):
         ''' Removes a vehicle from this road. Updates the flow time. '''
@@ -139,11 +153,11 @@ Graph.add_road(Road('A', 'End', lambda N: 45, 't=45'))
 Graph.add_road(Road('B', 'End', lambda N: N/100, 't=N/100'))
 Graph.draw()
 
-for i in range(4000):
-    for node in Graph.Graph.nodes():
-        for edges in Graph.Graph[node].values():
-            for edge in edges.values():
-                edge['road'].add_vehicle()
+# for i in range(4000):
+#     for node in Graph.Graph.nodes():
+#         for edges in Graph.Graph[node].values():
+#             for edge in edges.values():
+#                 edge['road'].add_vehicle()
 
 #print("social:", list(Graph.social_path('Start')))
 print("egoist:", list(Graph.egoist_path('Start')))
