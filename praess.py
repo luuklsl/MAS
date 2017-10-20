@@ -131,12 +131,9 @@ class Network:
             plt.savefig(save)
 
     def get_roads_from_node(self,node):
-        return_roads = []
-        roads = self.Graph.edges()
-        for road in roads:
-            if road[0] == node:
-                return_roads.append(road)
-        return return_roads
+        '''Gets a list of roads outwards from any given node'''
+        roads = self.Graph.edges(node) 
+        return roads
 
 
         
@@ -180,13 +177,13 @@ Graph.add_road(Road('B', 'A', lambda N: 10, 't=10'))
 Graph.add_road(Road('A', 'End', lambda N: 45, 't=45'))
 Graph.add_road(Road('B', 'End', lambda N: N/100, 't=N/100'))
 # Graph.draw()
-for i in range(200):
+for i in range(40000): #above 10e4 you can expect this to get waaay slower
 	carList.append(Car(i))
     # for node in Graph.Graph.nodes():
     #     for edges in Graph.Graph[node].values():
     #         for edge in edges.values():
     #             edge['road'].add_vehicle()
-print (carList)
+# print (carList)
 x = carList[5]
 print (x.search)
 x.search = "Social"
