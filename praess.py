@@ -19,7 +19,7 @@ class Main:
         pass
 
 
-class Road:
+class Road: #shouldn't road be a subclass of Network, as it is part of that?
     
     def __init__(self, src, dest, time_func, name=None):
         ''' Constructs a Road from src to dest, using the flow function time_func, with a label. '''
@@ -129,6 +129,16 @@ class Network:
         plt.show()
         if save is not None:
             plt.savefig(save)
+
+    def get_roads_from_node(self,node):
+        return_roads = []
+        roads = self.Graph.edges()
+        for road in roads:
+            if road[0] == node:
+                return_roads.append(road)
+        return return_roads
+
+
         
     # def fastest_path(self, source, attr, visited, total_time):
     #     ''' Seeks the fastest path from source using attr key. '''
@@ -181,6 +191,7 @@ x = carList[5]
 print (x.search)
 x.search = "Social"
 print(x.search)
+print(Graph.get_roads_from_node("Start"))
 
 #print("social:", list(Graph.social_path('Start')))
 # print("egoist:", list(Graph.egoist_path('Start')))
