@@ -122,12 +122,12 @@ carList = []
 nodeList = []
 roadList = []
 
-roads = [['Start', 'A', lambda N: 10 + N/10, 't=N/10'], 
-		['Start', 'B', lambda N: 45, 't=45'],
-		['A', 'B', lambda N: 0, 't=0'],
-    	['B', 'A', lambda N: 10, 't=10'],
-    	['A', 'End', lambda N: 45, 't=45'],
-    	['B', 'End', lambda N: N/100, 't=N/100'] ]
+roads = [['Start', 'A', lambda N: 10 + N/10, 'Start-A'], 
+		['Start', 'B', lambda N: 45, 'Start-B'],
+		['A', 'B', lambda N: 0, 'A-B'],
+    	['B', 'A', lambda N: 10, 'B-A'],
+    	['A', 'End', lambda N: 45, 'A-End'],
+    	['B', 'End', lambda N: N/100, 'B-End'] ]
 
 Graph = Network()
 
@@ -156,7 +156,6 @@ for x in carList:
 	print (x.travel_time)
 	print(x.position)
 
-	
 print (roadList[1].dest)
 
 
@@ -166,11 +165,7 @@ print (roadList[1].dest)
 #print(x.search)
 #print (Graph.get_roads_from_node("Start"))
 #print (nx.get_edge_attributes(Graph, 'name'))
-
-
 #roadList[2].travel_time
 #print(roadList[0].get_time())
-
-
 #while (len(carList)>0):
 
