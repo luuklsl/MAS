@@ -19,7 +19,7 @@ class Main:
         pass
 
 
-class Road: #shouldn't road be a subclass of Network, as it is part of that?
+class Road:
     
     def __init__(self, src, dest, time_func, name=None):
         ''' Constructs a Road from src to dest, using the flow function time_func, with a label. '''
@@ -36,7 +36,6 @@ class Road: #shouldn't road be a subclass of Network, as it is part of that?
     def __repr__(self):
         return 'Road: Name \'{}\'' .format(self.name)
 
-
     
 class Car:
 
@@ -45,10 +44,11 @@ class Car:
         self.identifier = identifier
         self.position = start
         self._searchAlgo = searchAlgo
+        self.travel_time = 0
         #self.start_time
     
     def update_position(self):
-    	self.ticks = self.ticks-1
+    	self.travel_time = self.travel_time-1
 
     @property
     def search(self):
@@ -121,8 +121,14 @@ class Network:
 carList = []
 nodeList = []
 roadList = []
-roads = [['Start', 'A', lambda N: 10 + N/10, 't=N/10'], ['Start', 'B', lambda N: 45, 't=45'],['A', 'B', lambda N: 0, 't=0'],
-    ['B', 'A', lambda N: 10, 't=10'],['A', 'End', lambda N: 45, 't=45'],['B', 'End', lambda N: N/100, 't=N/100'] ]
+
+roads = [['Start', 'A', lambda N: 10 + N/10, 't=N/10'], 
+		['Start', 'B', lambda N: 45, 't=45'],
+		['A', 'B', lambda N: 0, 't=0'],
+    	['B', 'A', lambda N: 10, 't=10'],
+    	['A', 'End', lambda N: 45, 't=45'],
+    	['B', 'End', lambda N: N/100, 't=N/100'] ]
+
 Graph = Network()
 
 Graph.add_node('Start')
@@ -131,40 +137,40 @@ Graph.add_node('A')
 Graph.add_node('B')
 
 for road in roads:
-
     roadList.append(Road(road[0],road[1],road[2],road[3]))
 print (roadList)
+
 for x in range(len(roadList)):
     Graph.add_road(roadList[x])
 
-
-# Graph.draw()
-
-
-
-
-
-for i in range(10): #above 10e4 you can expect this to get waaay slower
+for i in range(1): 
 	carList.append(Car(i))
 
-x = carList[5]
-print (x.search)
-x.search = "Social"
-print(x.search)
-print (Graph.get_roads_from_node("Start"))
+for x in carList: 
+	print(Graph.get_roads_from_node("Start"))
+	x.position = roadList[0]
+	t = roadList[0].get_time()
+	x.travel_time = t
+	print (x.travel_time)
+	x.update_position()
+	print (x.travel_time)
+	print(x.position)
+
+	
+print (roadList[1].dest)
+
+
+#print (carList[0])
+##print (x.search)
+#x.search = "Social"
+#print(x.search)
+#print (Graph.get_roads_from_node("Start"))
 #print (nx.get_edge_attributes(Graph, 'name'))
 
 
-roadList[2].travel_time
-print(roadList[0].get_time())
+#roadList[2].travel_time
+#print(roadList[0].get_time())
 
 
-while (len(carList)>0):
-    break
+#while (len(carList)>0):
 
-print (carList[200])
-#time = get_edge_attributes(G,N)
-#print (time)
-
-#print("social:", list(Graph.social_path('Start')))
-# print("egoist:", list(Graph.egoist_path('Start')))
