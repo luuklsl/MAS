@@ -2,11 +2,12 @@ class Car:
 
 	def __init__(self, identifier, dest="End", start="Start", searchAlgo="AStar"):
 		self.destination = dest
+		self.src = start
 		self.identifier = identifier
 		self.position = start
 		self._searchAlgo = searchAlgo
-		self.travel_time = int
-		self.current_road = ""
+		self.travel_time = 1
+		self.current_road = None
 		#self.prev_node/road?
 	
 
@@ -35,8 +36,19 @@ class Car:
 
 
 
-	def Astar_search(self):
+	def Astar_search(self, Graph):
 		"""A* search for our network."""
+		goal = self.destination
+		if (self.current_road != None):
+			current = self.current_road.dest
+		else:
+			current = "start"
+		print (goal, current, goal == current)
+		if current == goal:
+			return 1
+		else:
+			pass
+			# for
 		pass
 
 	

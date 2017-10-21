@@ -1,8 +1,9 @@
 class Road:
 	
-	def __init__(self, src, dest, time_func, name=None):
+	def __init__(self, ident, src, dest, time_func, name=None):
 		''' Constructs a Road from src to dest, using the flow function time_func, with a label. '''
 		# self.Graph = None
+		self.id = ident
 		self.name = name
 		self.src = src
 		self.dest = dest

@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import random as rand
 
 from road import Road
 from car import Car
@@ -20,12 +21,14 @@ if __name__ == "__main__":
 	Graph = Network()
 
 	Graph.add_node('Start')
-	Graph.add_node('End')
+	Graph.add_node('End', visited=False)
 	Graph.add_node('A')
 	Graph.add_node('B')
 
+	x = 0
 	for road in roads:
-		roadList.append(Road(road[0],road[1],road[2],road[3]))
+		roadList.append(Road(x, road[0],road[1],road[2],road[3]))
+		x +=1
 	print (roadList)
 
 	for x in range(len(roadList)):
@@ -34,11 +37,11 @@ if __name__ == "__main__":
 	for i in range(1): 
 		carList.append(Car(i))
 
-	for x in carList: 
+	# for x in carList: 
 
-		print(Graph.get_roads_from_node("Start"))
-		x.position = roadList[0]
-		x.travel_time = x.position.get_time() #this works because the car(x) position is set on a Road Obj, meaning I can also access that road's public funcs and vars
+		# print(Graph.get_roads_from_node("Start"))
+		# x.position = roadList[5]
+		# x.travel_time = x.current_road.get_time() #this works because the car(x) position is set on a Road Obj, meaning I can also access that road's public funcs and vars
 		# print (x.travel_time)
 		# t = roadList[0].get_time()
 		# x.travel_time = t
@@ -46,22 +49,21 @@ if __name__ == "__main__":
 		# x.update_position()
 		# print (x.travel_time)
 		# print(x.position)
- 
-	print (roadList[1].dest)
 
+	print (Graph.get_node_attr("Start")[0])
 
-	#print (carList[0])
-	##print (x.search)
-	#x.search = "Social"
-	#print(x.search)
+	# x.travel_time=1
+	# print (x.position.dest, x.travel_time)
+
 	#print (Graph.get_roads_from_node("Start"))
 	#print (nx.get_edge_attributes(Graph, 'name'))
 	#roadList[2].travel_time
 	#print(roadList[0].get_time())
-
+	neighb = list(Graph.neighbours("A"))
+	print (neighb)
 	
 	notAtDest = list(carList) #this way we don't get any problems with notAtDest being a reference copy instead of a data-copy
-
+	# print(len())
 
 	while (len(notAtDest)>0):
 		"""As long as not all cars have arrived at their destination we keep on itterating"""
@@ -69,8 +71,12 @@ if __name__ == "__main__":
 		for car in carList:
 			car.update()
 
-			if car.travel_time == 0:
-				car.Astar_search()
+			if car.travel_time <= 0:
+				print("here")
+				car.current_road = Graph.get_roads_from_node(car.position)[0]
+				print (car.current_road)
+				# this = car.Astar_search(Graph)
+				# print(this)
 
 
 

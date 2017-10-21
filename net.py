@@ -6,10 +6,15 @@ class Network:
 	def __init__(self):
 		''' Constructs an empty network. '''
 		self.Graph = nx.MultiDiGraph()
-	
-	def add_node(self, n):
+
+
+	def neighbours(self, node):
+		"""Queries the graph on it's neighbours, returns dict of dict"""
+		return self.Graph[node].keys()
+
+	def add_node(self, n, visited=False):
 		''' Adds a node with the name n. '''
-		self.Graph.add_node(n)
+		self.Graph.add_node(n, vis_attr = visited)
 	
 	
 	def add_road(self, road):
@@ -17,21 +22,6 @@ class Network:
 		road.Graph = self
 		self.Graph.add_edge(road.src, road.dest, road=road)
 
-	def add_roads_from(self, roads):
-		''' Adds roads to the network. '''
-		edges = len(roads) * [None] 
-		for i, road in enumerate(roads):
-			edges[i] = (road.src, road.dest, {'road': road, 'free_flow_time': road.free_flow_time})
-			road.Graph = self
-		self.Graph.add_edges_from(edges)
-	
-	def remove_road(self, n1, n2):
-		''' Removes road from n1 to n2. '''
-		self.Graph.remove_edge(n1, n2)
-	
-	def remove_roads_from(self, roads):
-		''' Removes roads in list of pairds roads. '''
-		self.Graph.remove_edges_from(roads)
 	
 	def draw(self, save=None):
 		''' Draws/Saves a visual representation of the network. '''
@@ -40,6 +30,11 @@ class Network:
 		plt.show()
 		if save is not None:
 			plt.savefig(save)
+
+	def get_node_attr(self, node_c):
+		return self.Graph.nodes(node_c)
+
+
 
 	def get_roads_from_node(self,node):
 		'''Gets a list of roads outwards from any given node'''
