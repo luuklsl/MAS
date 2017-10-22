@@ -6,9 +6,10 @@ class Car:
 		self.identifier = identifier
 		self.position = start
 		self._searchAlgo = searchAlgo
-		self.travel_time = 1
+		self.travel_time = 0
 		self.current_road = None
 		self.travel_plan = []
+		self.time_taken = 0
 		#self.prev_node/road?
 	
 
@@ -20,6 +21,8 @@ class Car:
 		# if self.travel_time <= 0:   #if we done with current_road
 		# 	route = self._Ego_search()
 			
+	def pop(self):
+		return self.destination == self.position
 
 	def _update_position(self):   #please use only within car_object
 		self.travel_time = self.travel_time-1

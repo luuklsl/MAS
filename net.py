@@ -46,13 +46,12 @@ class Network:
 		"""get edge attribute from nodes, only weight as this is important for our case"""
 		ret = nx.get_edge_attributes(self.Graph, "weight")
 		print ("Getting attribute from edge from {}: {}".format(nodes,ret[nodes]))
-		return (ret)
+		return (ret[nodes])
 
 	def set_edge_attr(self, nodes, weight_):
-		"""Set the edge attribute between two nodes (aka a road)"""
-		# print (nodes, weight_)
+		"""Set the edge attribute between two nodes (u, v) with a given weight"""
 		self.Graph.edge[nodes[0]][nodes[1]]['weight'] = weight_
-		pass
+		# print("this")
 
 
 
@@ -64,6 +63,6 @@ class Network:
 
 
 	def dijkstra_path(self, src, dest):
-		print (self.Graph[src])
+		# print (self.Graph[src])
 		x = nx.dijkstra_path(self.Graph, src, dest)
 		return x
