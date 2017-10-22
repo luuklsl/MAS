@@ -33,9 +33,11 @@ if __name__ == "__main__":
 	for x in list(roadList):
 		Graph.add_road(roadList[x], weight_=roadList[x].get_time())
 
-	for i in range(5000): 
+	n = 7000
+
+	for i in range(int(n/2)): 
 		carList.append(Car(i, searchAlgo="Social"))
-	for i in range(5000, 10000):
+	for i in range(int(n/2), n):
 		carList.append(Car(i, searchAlgo="Ego"))
 
 	pass
@@ -147,13 +149,13 @@ if __name__ == "__main__":
 
 		# break  #only remove this after you are SURE that you won't get hanging on the while loop! (eg, add a max_itter counter in the while)
 	total = 0
-	for car in carList[:5000]:
+	for car in carList[:int(n/2)]:
 		print(car.travel_time, car.current_road, car.identifier, car.time_taken)
 		total +=  car.time_taken
 	total = total/(len(carList)/2)
 	print ("Average Social: "+ str(total))
 	total = 0
-	for car in carList[5000:]:
+	for car in carList[int(n/2):]:
 		total +=  car.time_taken
 	total = total/(len(carList)/2)
 	print ("Average Egoist: " + str(total))
