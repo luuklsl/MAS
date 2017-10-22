@@ -1,6 +1,6 @@
 class Car:
 
-	def __init__(self, identifier, dest="End", start="Start", searchAlgo="AStar"):
+	def __init__(self, identifier, dest="End", start="Start", searchAlgo="Ego"):
 		self.destination = dest
 		self.src = start
 		self.identifier = identifier
@@ -8,6 +8,7 @@ class Car:
 		self._searchAlgo = searchAlgo
 		self.travel_time = 1
 		self.current_road = None
+		self.travel_plan = []
 		#self.prev_node/road?
 	
 
@@ -17,7 +18,7 @@ class Car:
 		self._update_position()
 
 		# if self.travel_time <= 0:   #if we done with current_road
-		# 	route = self._Astar_search()
+		# 	route = self._Ego_search()
 			
 
 	def _update_position(self):   #please use only within car_object
@@ -29,27 +30,15 @@ class Car:
 	
 	@search.setter
 	def search(self, value):
-		if (value == "Social" or value == "AStar"):
+		if (value == "Social" or value == "Ego"):
 			self._searchAlgo = value
 		else:
-			raise ValueError ("Value was not AStar or Social")
+			raise ValueError ("Value was not Ego or Social")
 
 
 
-	def Astar_search(self, Graph):
-		"""A* search for our network."""
-		goal = self.destination
-		if (self.current_road != None):
-			current = self.current_road.dest
-		else:
-			current = "start"
-		print (goal, current, goal == current)
-		if current == goal:
-			return 1
-		else:
-			pass
-			# for
-		pass
+	def set_road(self,road):
+		self.current_road = road
 
 	
 	def __repr__(self):				#this basically defines what is printed if you call "print(Obj)"

@@ -11,17 +11,17 @@ if __name__ == "__main__":
 	nodeList = []
 	roadList = []
 
-	roads = [['Start', 'A', lambda N: 10 + N/10, 'Start-A'], 
-			['Start', 'B', lambda N: 45, 'Start-B'],
-			['A', 'B', lambda N: 0, 'A-B'],
-			['B', 'A', lambda N: 10, 'B-A'],
-			['A', 'End', lambda N: 45, 'A-End'],
-			['B', 'End', lambda N: N/100, 'B-End'] ]
+	roads = [['Start', 'A', lambda N: 10 + N/20, 'Start-A'], 
+			['Start', 'B', lambda N: 20 + N/10, 'Start-B'],
+			['A', 'B', lambda N: 5 + N/20, 'A-B'],
+			['B', 'A', lambda N: 20 + N/33, 'B-A'],
+			['A', 'End', lambda N: 20 +N/5, 'A-End'],
+			['B', 'End', lambda N: 10 + N/100, 'B-End'] ]
 
 	Graph = Network()
 
 	Graph.add_node('Start')
-	Graph.add_node('End', visited=False)
+	Graph.add_node('End')
 	Graph.add_node('A')
 	Graph.add_node('B')
 
@@ -29,10 +29,11 @@ if __name__ == "__main__":
 	for road in roads:
 		roadList.append(Road(x, road[0],road[1],road[2],road[3]))
 		x +=1
-	print (roadList)
+	# print (roadList)
 
 	for x in range(len(roadList)):
-		Graph.add_road(roadList[x])
+		print (roadList[x].get_time())
+		Graph.add_road(roadList[x], weight_=roadList[x].get_time())
 
 	for i in range(1): 
 		carList.append(Car(i))
@@ -49,8 +50,14 @@ if __name__ == "__main__":
 		# x.update_position()
 		# print (x.travel_time)
 		# print(x.position)
+	A = Graph.get_roads_from_node(None)
+	print(A)
 
-	print (Graph.get_node_attr("Start")[0])
+	Graph.get_edge_attr(("A","End"))
+	# roadList[4].traffic_intensity = 300
+	Graph.set_edge_attr(("A","End"), roadList[4].get_time())
+	Graph.get_edge_attr(("A","End"))
+
 
 	# x.travel_time=1
 	# print (x.position.dest, x.travel_time)
@@ -60,7 +67,7 @@ if __name__ == "__main__":
 	#roadList[2].travel_time
 	#print(roadList[0].get_time())
 	neighb = list(Graph.neighbours("A"))
-	print (neighb)
+	# print (neighb)
 	
 	notAtDest = list(carList) #this way we don't get any problems with notAtDest being a reference copy instead of a data-copy
 	# print(len())
@@ -71,12 +78,27 @@ if __name__ == "__main__":
 		for car in carList:
 			car.update()
 
-			if car.travel_time <= 0:
+			if (car.travel_time <= 0 and car.travel_plan == []): #do we have an empty list of following nodes?
 				print("here")
-				car.current_road = Graph.get_roads_from_node(car.position)[0]
-				print (car.current_road)
-				# this = car.Astar_search(Graph)
-				# print(this)
+				if car.current_road != None: #if we previously were on a road, get the roads destination
+					node = current_road.dest
+					#if current rode == None, node = car.position (we haven't done anything yet)
+				else:
+					node = car.position
+				# print (node, car.destination)
+				x = Graph.dijkstra_path(node, car.destination) #does not waste recources on useless calls!
+				print ('here #2')
+				if (car.search == "Ego"):
+					pass
+				elif (car.search == "Social"):
+					for road in roadList:
+						if (road.dest == x[1] and road.src ==x[0]):
+							car.current_road = road #give the car all the info it needs on the road object it is on
+				
+
+
+				
+				
 
 
 
