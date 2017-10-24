@@ -36,8 +36,11 @@ if __name__ == "__main__":
 
 	avg_travel_time_per_N = []
 
+	# for n in range(1, 2001):
 	n = 1000
+
 	searchAlgorithm = "Ego"
+	# carList = []
 	for i in range(n): 
 		carList.append(Car(i, searchAlgo=searchAlgorithm))
 
@@ -102,14 +105,14 @@ if __name__ == "__main__":
 		
 		x = 0
 		for road in roadList.keys():
-			nodeList[x].append(roadList[road].traffic_intensity)
+			nodeList[x].append(roadList[road].get_time())
 			# print (nodeList[x], roadList[roads].get_time(), x)
 			x+=1
 		max_itter +=1
 
-	for x in range(len(nodeList)):
-		print (len(nodeList[x]))
-		print (nodeList[x])
+	# for x in range(len(nodeList)):
+		# print (len(nodeList[x]))
+		# print (nodeList[x])
 
 
 	total = 0
@@ -118,16 +121,14 @@ if __name__ == "__main__":
 	total = total/(len(carList))
 	avg_travel_time_per_N.append(total)
 
-	print ("another N done: " + str(n))
+	# print ("another N done: " + str(n))
  
 	print(avg_travel_time_per_N)
 
-	f = open(str(n) + str(searchAlgorithm)+  "traffic_intensity.txt", 'w')
+	f = open(str(n) + str(searchAlgorithm)+  "_Time.txt", 'w')
 	# for x in range(len(avg_travel_time_per_N)):
 		# f.write(str(x+1)+ ", " +str(avg_travel_time_per_N[x]) + "\n")
 	for x in range(len(nodeList)):
-		# print (x)
-		# print (roads)
 		f.write(str(roads[x][0])+ str(roads[x][1])+", " + str(nodeList[x])+ "\n")
 	f.close()
 
