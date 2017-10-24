@@ -10,7 +10,7 @@ class Road(Network):
 		self.src = src
 		self.dest = dest
 		self.travel_time = time_func
-		self.traffic_intensity = 20
+		self.traffic_intensity = 0
 
 	# def get_time(self):
 		# return super().get_edge_attr((self.src, self.dest))

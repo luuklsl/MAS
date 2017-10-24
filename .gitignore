@@ -91,3 +91,4 @@ ENV/
 .ropeproject
 road trry.py
 praess2.py
+*.txt

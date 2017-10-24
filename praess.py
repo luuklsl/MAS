@@ -8,15 +8,16 @@ from net import Network
 if __name__ == "__main__":
 
 	carList = []
-	nodeList = []
+	nodeList = [list(),list(),list(),list(),list(),list()]
+
 	roadList = dict()
 
-	roads = [['Start', 'A', lambda N: 10 + N/20, 'Start-A'], 
-			['Start', 'B', lambda N: 20 + N/10, 'Start-B'],
-			['A', 'B', lambda N: 8 + N/20, 'A-B'],
-			['B', 'A', lambda N: 8 + N/20, 'B-A'],  #we assume bi-directional roads to be independent, but same travel time
-			['A', 'End', lambda N: 10 +N/5, 'A-End'],
-			['B', 'End', lambda N: 10 + N/10, 'B-End'] ]
+	roads = [['Start', 'A', lambda N: 11 + N/20, 'Start-A'], 
+			['Start', 'B', lambda N: 22 + N/10, 'Start-B'],
+			['A', 'B', lambda N: 9 + N/20, 'A-B'],
+			['B', 'A', lambda N: 9 + N/20, 'B-A'],  #we assume bi-directional roads to be independent, but same travel time
+			['A', 'End', lambda N: 14 +N/5, 'A-End'],
+			['B', 'End', lambda N: 12 + N/10, 'B-End'] ]
 
 	Graph = Network()
 
@@ -35,85 +36,99 @@ if __name__ == "__main__":
 
 	avg_travel_time_per_N = []
 
-	for n in range (1,2001):
-		carList = []
-		for i in range(n): 
-			carList.append(Car(i, searchAlgo="Ego"))
+	n = 10000
+	searchAlgorithm = "Ego"
+	for i in range(n): 
+		carList.append(Car(i, searchAlgo=searchAlgorithm))
 
-		
-		
-		notAtDest = list(carList) #this way we don't get any problems with notAtDest being a reference copy instead of a data-copy
-		# print(len())
-		max_itter=0
-		while (len(notAtDest)>0 and max_itter<=10000000):
-			"""As long as not all cars have arrived at their destination we keep on itterating"""
+	
+	
+	notAtDest = list(carList) #this way we don't get any problems with notAtDest being a reference copy instead of a data-copy
+	# print(len())
+	max_itter=0
+	while (len(notAtDest)>0 and max_itter<=10000000):
+		"""As long as not all cars have arrived at their destination we keep on itterating"""
 
-			for car in notAtDest:
-				car.update()
+		for car in notAtDest:
+			car.update()
 
-				if (car.travel_time <= 0 and car.travel_plan == []): #do we have an empty list of following nodes?
+			if (car.travel_time <= 0 and car.travel_plan == []): #do we have an empty list of following nodes?
 
-					if car.current_road != None: #if we previously were on a road, get the roads destination
-						node = car.current_road.dest
-						car.current_road.traffic_intensity -= 1
-						car.position = node
-						#if current rode == None, node = car.position (we haven't done anything yet)
-					else:
-						node = car.position
-
-
-					if not (car.pop()):
-						x = Graph.dijkstra_path(node, car.destination) #does not waste recources on useless calls!
-
-						if (car.search == "Ego"):
-							car.travel_plan = x
-							car.current_road= roadList[x[0]+x[1]]
-
-						elif (car.search == "Social"):
-							car.current_road = roadList[x[0]+x[1]]
-
-						car.travel_time = car.current_road.get_time()	
-						car.current_road.traffic_intensity += 1
-						# if (max_itter%10==0):
-							# print (car.travel_time)
-						car.time_taken += car.travel_time
-
-					else:
-						notAtDest.pop(notAtDest.index(car))
+				if car.current_road != None: #if we previously were on a road, get the roads destination
+					node = car.current_road.dest
+					car.current_road.traffic_intensity -= 1
+					car.position = node
+					#if current rode == None, node = car.position (we haven't done anything yet)
+				else:
+					node = car.position
 
 
-				elif (car.travel_time<=0 and len(car.travel_plan)!=0):
-					car.position = car.current_road.dest
+				if not (car.pop()):
+					x = Graph.dijkstra_path(node, car.destination) #does not waste recources on useless calls!
 
-					if not (car.pop()):
-						car.current_road.traffic_intensity -=1
-						car.travel_plan.pop(0) #pop first item in travel plan
-						x = car.travel_plan
-						# print (x)
+					if (car.search == "Ego"):
+						car.travel_plan = x
+						car.current_road= roadList[x[0]+x[1]]
+
+					elif (car.search == "Social"):
 						car.current_road = roadList[x[0]+x[1]]
-						car.current_road.traffic_intensity +=1
-						car.travel_time = car.current_road.get_time()
-						car.time_taken += car.travel_time
+
+					car.travel_time = car.current_road.get_time()	
+					car.current_road.traffic_intensity += 1
+					car.time_taken += car.travel_time
+
+				else:
+					notAtDest.pop(notAtDest.index(car))
 
 
-					else:
-						notAtDest.pop(notAtDest.index(car))
-				for x, road in roadList.items():
-					Graph.set_edge_attr((road.src, road.dest), road.get_time())
-			max_itter +=1
-		total = 0
-		for car in carList:
-			total +=  car.time_taken
-		total = total/(len(carList))
-		avg_travel_time_per_N.append(total)
+			elif (car.travel_time<=0 and len(car.travel_plan)!=0):
+				car.position = car.current_road.dest
 
-		print ("another N done: " + str(n))
+				if not (car.pop()):
+					car.current_road.traffic_intensity -=1
+					car.travel_plan.pop(0) #pop first item in travel plan
+					x = car.travel_plan
+					car.current_road = roadList[x[0]+x[1]]
+					car.current_road.traffic_intensity +=1
+					car.travel_time = car.current_road.get_time()
+					car.time_taken += car.travel_time
+
+
+				else:
+					notAtDest.pop(notAtDest.index(car))
+
+			for x, road in roadList.items():
+				Graph.set_edge_attr((road.src, road.dest), road.get_time())
+		
+		x = 0
+		for road in roadList.keys():
+			nodeList[x].append(roadList[road].traffic_intensity)
+			# print (nodeList[x], roadList[roads].get_time(), x)
+			x+=1
+		max_itter +=1
+
+	for x in range(len(nodeList)):
+		print (len(nodeList[x]))
+		print (nodeList[x])
+
+
+	total = 0
+	for car in carList:
+		total +=  car.time_taken
+	total = total/(len(carList))
+	avg_travel_time_per_N.append(total)
+
+	print ("another N done: " + str(n))
  
 	print(avg_travel_time_per_N)
 
-	f = open("Ego.txt", 'w')
-	for x in range(len(avg_travel_time_per_N)):
-		f.write(str(x+1)+ ", " +str(avg_travel_time_per_N[x]) + "\n")
+	f = open(str(n) + str(searchAlgorithm)+  "traffic_intensity.txt", 'w')
+	# for x in range(len(avg_travel_time_per_N)):
+		# f.write(str(x+1)+ ", " +str(avg_travel_time_per_N[x]) + "\n")
+	for x in range(len(nodeList)):
+		# print (x)
+		# print (roads)
+		f.write(str(roads[x][0])+ str(roads[x][1])+", " + str(nodeList[x])+ "\n")
 	f.close()
 
 
