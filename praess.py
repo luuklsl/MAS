@@ -36,7 +36,7 @@ if __name__ == "__main__":
 
 	avg_travel_time_per_N = []
 
-	n = 10000
+	n = 1000
 	searchAlgorithm = "Ego"
 	for i in range(n): 
 		carList.append(Car(i, searchAlgo=searchAlgorithm))
@@ -83,9 +83,9 @@ if __name__ == "__main__":
 
 			elif (car.travel_time<=0 and len(car.travel_plan)!=0):
 				car.position = car.current_road.dest
-
+				car.current_road.traffic_intensity -= 1
 				if not (car.pop()):
-					car.current_road.traffic_intensity -=1
+					
 					car.travel_plan.pop(0) #pop first item in travel plan
 					x = car.travel_plan
 					car.current_road = roadList[x[0]+x[1]]
