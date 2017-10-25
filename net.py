@@ -50,7 +50,7 @@ class Network:
 
 	def set_edge_attr(self, nodes, weight_):
 		"""Set the edge attribute between two nodes (u, v) with a given weight"""
-		self.Graph.edge[nodes[0]][nodes[1]]['weight'] = weight_
+		self.Graph[nodes[0]][nodes[1]]['weight'] = weight_
 		# print("this")
 
 

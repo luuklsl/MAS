@@ -8,7 +8,7 @@ from net import Network
 if __name__ == "__main__":
 
 	carList = []
-	nodeList = [list(),list(),list(),list(),list(),list()]
+	road_result = [list(),list(),list(),list(),list(),list()]
 
 	roadList = dict()
 
@@ -18,6 +18,7 @@ if __name__ == "__main__":
 			['B', 'A', lambda N: 9 + N/20, 'B-A'],  #we assume bi-directional roads to be independent, but same travel time
 			['A', 'End', lambda N: 14 +N/5, 'A-End'],
 			['B', 'End', lambda N: 12 + N/10, 'B-End'] ]
+
 
 	Graph = Network()
 
@@ -105,14 +106,14 @@ if __name__ == "__main__":
 		
 		x = 0
 		for road in roadList.keys():
-			nodeList[x].append(roadList[road].get_time())
-			# print (nodeList[x], roadList[roads].get_time(), x)
+			road_result[x].append(roadList[road].traffic_intensity)
+			# print (road_result[x], roadList[roads].get_time(), x)
 			x+=1
 		max_itter +=1
 
-	# for x in range(len(nodeList)):
-		# print (len(nodeList[x]))
-		# print (nodeList[x])
+	# for x in range(len(road_result)):
+		# print (len(road_result[x]))
+		# print (road_result[x])
 
 
 	total = 0
@@ -125,11 +126,11 @@ if __name__ == "__main__":
  
 	print(avg_travel_time_per_N)
 
-	f = open(str(n) + str(searchAlgorithm)+  "_Time.txt", 'w')
+	f = open(str(n) + str(searchAlgorithm)+  "traffic_intensity.txt", 'w')
 	# for x in range(len(avg_travel_time_per_N)):
 		# f.write(str(x+1)+ ", " +str(avg_travel_time_per_N[x]) + "\n")
-	for x in range(len(nodeList)):
-		f.write(str(roads[x][0])+ str(roads[x][1])+", " + str(nodeList[x])+ "\n")
+	for x in range(len(road_result)):
+		f.write(str(roads[x][0])+ str(roads[x][1])+", " + str(road_result[x])+ "\n")
 	f.close()
 
 
