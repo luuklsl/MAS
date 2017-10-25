@@ -9,9 +9,9 @@ if __name__ == "__main__":
 
 	carList = []
 	road_result = [list(),list(),list(),list(),list(),list()]
-
 	roadList = dict()
 
+	nodeList = ["Start","End","A","B"]
 	roads = [['Start', 'A', lambda N: 11 + N/20, 'Start-A'], 
 			['Start', 'B', lambda N: 22 + N/10, 'Start-B'],
 			['A', 'B', lambda N: 9 + N/20, 'A-B'],
@@ -20,12 +20,11 @@ if __name__ == "__main__":
 			['B', 'End', lambda N: 12 + N/10, 'B-End'] ]
 
 
-	Graph = Network()
 
-	Graph.add_node('Start')
-	Graph.add_node('End')
-	Graph.add_node('A')
-	Graph.add_node('B')
+
+	Graph = Network()
+	for node in nodeList:
+		Graph.add_node(node)
 
 	x = 0
 	for road in roads:
@@ -38,9 +37,9 @@ if __name__ == "__main__":
 	avg_travel_time_per_N = []
 
 	# for n in range(1, 2001):
-	n = 70668
+	n = 1000
 
-	searchAlgorithm = "Social"
+	searchAlgorithm = "Ego"
 	# carList = []
 	for i in range(n): 
 		carList.append(Car(i, searchAlgo=searchAlgorithm))
