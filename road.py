@@ -24,4 +24,4 @@ class Road(Network):
 		return (self.travel_time(self.traffic_intensity))
 
 	def __repr__(self):
-		return 'Road: Name \'{}\'' .format(self.name)
+		return 'Road: Name \'{}\', time_func:\'{}\'' .format(self.name, self.travel_time)
