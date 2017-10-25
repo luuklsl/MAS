@@ -8,24 +8,47 @@ from net import Network
 if __name__ == "__main__":
 
 	carList = []
-	road_result = [list(),list(),list(),list(),list(),list()]
+	road_result = [list(),list(),list(),list(),list(),list(),list(),list(),list(),list(),list(),list(),list(),list(),list(),list(),list(),list(),list(),list()]
+
+	nodeList = ['Start', 'A', 'B', 'C', 'D', 'E', 'End']
 
 	roadList = dict()
 
-	roads = [['Start', 'A', lambda N: 11 + N/20, 'Start-A'], 
-			['Start', 'B', lambda N: 22 + N/10, 'Start-B'],
-			['A', 'B', lambda N: 9 + N/20, 'A-B'],
-			['B', 'A', lambda N: 9 + N/20, 'B-A'],  #we assume bi-directional roads to be independent, but same travel time
-			['A', 'End', lambda N: 14 +N/5, 'A-End'],
-			['B', 'End', lambda N: 12 + N/10, 'B-End'] ]
+	roads = [['Start', 'A', lambda N: 10 + N/20, 'Start-A'], 
+	 		['Start', 'D', lambda N: 10 + N/20, 'Start-D'],
+
+	 		['A', 'D', lambda N: 9 + N/10, 'A-D'],
+	 		['D', 'A', lambda N: 9 + N/10, 'D-A'],  
+
+	 		['D', 'C', lambda N: 8 + N/5, 'D-C'],
+	 		['C', 'D', lambda N: 8 + N/5, 'C-D'],
+
+	 		['A', 'C', lambda N: 10 + N/5, 'A-C'],
+	 		['C', 'A', lambda N: 10 + N/5, 'C-A'], 
+
+	 		['A', 'B', lambda N: 9 + N/20, 'A-B'],
+	 		['B', 'A', lambda N: 9 + N/20, 'B-A'], 
+
+	 		['B', 'C', lambda N: 9 + N/5, 'B-C'],
+	 		['C', 'B', lambda N: 9 + N/5, 'C-B'], 
+
+	 		['C', 'E', lambda N: 7 + N/5, 'C-E'],
+	 		['E', 'C', lambda N: 7 + N/5, 'E-C'], 
+
+	 		['D', 'E', lambda N: 10 + N/20, 'B-C'],
+	 		['E', 'D', lambda N: 10 + N/20, 'C-B'],
+
+	 		['B', 'E', lambda N: 10 + N/10, 'B-E'],
+	 		['E', 'B', lambda N: 10 + N/10, 'E-B'], 
+
+	 		['E', 'End', lambda N: 12 + N/20, 'A-End'],
+	 		['B', 'End', lambda N: 12 + N/20, 'B-End'] ]
 
 
 	Graph = Network()
 
-	Graph.add_node('Start')
-	Graph.add_node('End')
-	Graph.add_node('A')
-	Graph.add_node('B')
+	for x in nodeList:
+		Graph.add_node(x)
 
 	x = 0
 	for road in roads:
@@ -38,7 +61,7 @@ if __name__ == "__main__":
 	avg_travel_time_per_N = []
 
 	# for n in range(1, 2001):
-	n = 70668
+	n = 200
 
 	searchAlgorithm = "Social"
 	# carList = []
